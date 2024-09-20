@@ -23,6 +23,7 @@ public final class Run {
     private LocalDateTime startedOn;
     private LocalDateTime completedOn;
     private @Positive Integer miles;
+    @Enumerated(EnumType.STRING)
     private Location location;
 
     @Override
