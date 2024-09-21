@@ -1,8 +1,19 @@
 package dev.danvega.runnerz;
 
+import dev.danvega.runnerz.user.User;
+import dev.danvega.runnerz.user.UserHttpClient;
+import dev.danvega.runnerz.user.UserRestClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+
+import java.util.List;
+
 
 @Slf4j
 @SpringBootApplication
@@ -14,16 +25,21 @@ public class RunnerzApplication {
 		log.info("The application works!");
 	}
 
-//	@Bean
-//	CommandLineRunner runner() {
-//		return args -> {
-//			Run run = new Run(1,
-//					"First Run",
-//					LocalDateTime.now(),
-//					LocalDateTime.now().plus(1, ChronoUnit.HOURS),
-//					5,
-//					Location.OUTDOOR);
-//			log.info("My run: {}", run);
-//		};
-//	}
+	@Bean
+	UserHttpClient userHttpClient() {
+		RestClient restClient = RestClient.create("https://jsonplaceholder.typicode.com/");
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
+		return factory.createClient(UserHttpClient.class);
+	}
+
+	@Bean
+	CommandLineRunner runner(UserHttpClient userClient) {
+		return args -> {
+			List<User> users = userClient.findAll();
+			log.info("Users: {}", users);
+
+			var user1 = userClient.findById(1);
+			log.info("User 1: {}", user1);
+		};
+	}
 }
