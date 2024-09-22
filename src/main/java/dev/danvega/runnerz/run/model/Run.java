@@ -1,0 +1,25 @@
+package dev.danvega.runnerz.run.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "run")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Run {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String title;
+    private LocalDateTime startedOn;
+    private LocalDateTime completedOn;
+    private Integer miles;
+    @Enumerated(EnumType.STRING)
+    private Location location;
+}

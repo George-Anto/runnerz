@@ -2,7 +2,6 @@ package dev.danvega.runnerz;
 
 import dev.danvega.runnerz.user.User;
 import dev.danvega.runnerz.user.UserHttpClient;
-import dev.danvega.runnerz.user.UserRestClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

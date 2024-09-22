@@ -1,13 +1,10 @@
-package dev.danvega.runnerz.run;
+package dev.danvega.runnerz.run.repository;
 
-import jakarta.annotation.PostConstruct;
+import dev.danvega.runnerz.run.model.Run;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class InMemoryRunRepository {

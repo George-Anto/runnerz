@@ -2,6 +2,8 @@ package dev.danvega.runnerz.run;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.danvega.runnerz.run.model.Runs;
+import dev.danvega.runnerz.run.repository.RunRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
