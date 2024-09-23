@@ -6,11 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -18,10 +21,12 @@ import java.util.List;
 @SpringBootApplication
 public class RunnerzApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RunnerzApplication.class, args);
+	public static void main(String[] args) throws UnknownHostException {
+		ConfigurableApplicationContext context =SpringApplication.run(RunnerzApplication.class, args);
 
-		log.info("The application works!");
+		log.info("Spring Boot Server is up! Running at http://{}:{}",
+				InetAddress.getLocalHost().getHostAddress(),
+				context.getEnvironment().getProperty("server.port"));
 	}
 
 	@Bean
