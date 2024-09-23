@@ -4,12 +4,15 @@ import dev.danvega.runnerz.run.dto.RunDTO;
 import dev.danvega.runnerz.run.service.RunService;
 import dev.danvega.runnerz.run.validationGroup.CreateRun;
 import dev.danvega.runnerz.run.validationGroup.UpdateRun;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/runs")
 public class RunController {
@@ -21,30 +24,39 @@ public class RunController {
     }
 
     @GetMapping("")
-    List<RunDTO> getAllRuns() {
-        return runService.findAll();
+    ResponseEntity<List<RunDTO>> getAllRuns() {
+        var allRuns = runService.findAll();
+        log.info("Retrieved all {} Runs.", allRuns.size());
+        return ResponseEntity.ok(allRuns);
     }
 
     @GetMapping("/{id}")
-    RunDTO getRunById(@PathVariable Integer id) {
-        return runService.getRunById(id);
+    ResponseEntity<RunDTO> getRunById(@PathVariable Integer id) {
+        var run = runService.findById(id);
+        log.info("Retrieved Run: {}", run);
+        return ResponseEntity.ok(run);
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    void createRun(@Validated(CreateRun.class) @RequestBody RunDTO runDTO) {
-        runService.createRun(runDTO);
+    ResponseEntity<RunDTO> createRun(@Validated(CreateRun.class) @RequestBody RunDTO runDTO) {
+        var createdRun = runService.create(runDTO);
+        log.info("Created Run: {}", createdRun);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdRun);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    RunDTO updateRun(@Validated(UpdateRun.class) @RequestBody RunDTO updatedRunDTO, @PathVariable Integer id) {
-        return runService.updateRun(updatedRunDTO, id);
+    ResponseEntity<RunDTO> updateRun(@Validated(UpdateRun.class) @RequestBody RunDTO updatedRunDTO, @PathVariable Integer id) {
+        var updatedRun = runService.update(updatedRunDTO, id);
+        log.info("Updated Run: {}", updatedRun);
+        return ResponseEntity.ok(updatedRun);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteRun(@PathVariable Integer id) {
+    ResponseEntity<Void> deleteRun(@PathVariable Integer id) {
         runService.delete(id);
+        log.info("Deleted Run with Id: {}", id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -5,11 +5,13 @@ import dev.danvega.runnerz.run.exception.RunNotFoundException;
 import dev.danvega.runnerz.run.mapper.RunMapper;
 import dev.danvega.runnerz.run.model.Run;
 import dev.danvega.runnerz.run.repository.RunRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class RunService {
 
@@ -22,10 +24,12 @@ public class RunService {
     }
 
     public List<RunDTO> findAll() {
+        log.info("Trying to retrieve all Runs.");
         return runMapper.runListToRunDTOList(runRepository.findAll());
     }
 
-    public RunDTO getRunById(Integer id) throws RunNotFoundException {
+    public RunDTO findById(Integer id) throws RunNotFoundException {
+        log.info("Trying to retrieve Run with Id: {}.", id);
         Optional<Run> runOptional = runRepository.findById(id);
         if (runOptional.isEmpty()) {
             throw new RunNotFoundException();
@@ -33,13 +37,17 @@ public class RunService {
         return runMapper.runToRunDTO(runOptional.get());
     }
 
-    public void createRun(RunDTO runDTO) {
-        runRepository.save(runMapper.runDTOToRun(runDTO));
+    public RunDTO create(RunDTO runDTO) {
+        log.info("Trying to create a new Run: {}.", runDTO);
+        return runMapper
+                .runToRunDTO(runRepository
+                        .save(runMapper.runDTOToRun(runDTO)));
     }
 
-    public RunDTO updateRun(RunDTO updatedRunDTO, Integer id) throws RunNotFoundException {
+    public RunDTO update(RunDTO updatedRunDTO, Integer id) throws RunNotFoundException {
+        log.info("Trying to update Run with Id: {}.", id);
         // Fetch the existing RunDTO from the database
-        RunDTO existingRunDTO = getRunById(id);
+        RunDTO existingRunDTO = findById(id);
         // Manually update only the non-null fields in the updatedRunDTO
         if (updatedRunDTO.getTitle() != null) {
             existingRunDTO.setTitle(updatedRunDTO.getTitle());
@@ -60,6 +68,7 @@ public class RunService {
     }
 
     public void delete(Integer id) throws RunNotFoundException {
+        log.info("Trying to delete Run with Id: {}.", id);
         Optional<Run> optionalRun = runRepository.findById(id);
         if (optionalRun.isEmpty()) {
             throw new RunNotFoundException();
