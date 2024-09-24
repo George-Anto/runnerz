@@ -32,4 +32,40 @@ build/
 ### VS Code ###
 .vscode/
 
+
+# Node modules
+/node_modules/
+
+# Built files
+/dist/
+/out-tsc/
+
+# IDE files
+/.vscode/
+
+# Environment files
+/src/environments/environment*.ts
+
+# Compiled files
+*.js
+*.js.map
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+/coverage/
+
+# Misc
+.DS_Store
+*.tgz
+*.gz
+*.zip
+*.tar
+*.tar.gz
+
 /runnerz-server/logs
+runnerz-app/node
+runnerz-app/package-lock.json
