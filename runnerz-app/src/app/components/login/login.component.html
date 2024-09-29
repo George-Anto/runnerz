@@ -1,0 +1,45 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Welcome Back!</h2>
+    <p class="margin-bottom">Log in to your account</p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Log In</button>
+      <div class="forgot-password">
+        <a (click)="onForgotPassword()">Forgot Password?</a>
+      </div>
+    </form>
+
+    <div class="social-login">
+      <button class="btn btn-secondary" (click)="onGoogleLogin()">
+        Continue with Google
+      </button>
+      <button class="btn btn-facebook" (click)="onFacebookLogin()">
+        Continue with Facebook
+      </button>
+    </div>
+
+    <div class="new-account">
+      Don't have an account? <a (click)="onRegister()">Register Now</a>
+    </div>
+  </div>
+</div>
