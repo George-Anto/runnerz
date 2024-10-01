@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,10 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get('runnerz/api/runs').subscribe((data) => {
-      console.log(data);
-    });
+    this.http
+      .get(`${environment.SERVER_URL}/runnerz/api/runs`)
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

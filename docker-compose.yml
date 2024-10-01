@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+    app:
+        build:
+            context: ./runnerz-app
+            dockerfile: Dockerfile
+        ports:
+            - "80:80"
+        networks:
+            - runnerz-network
+
+    server:
+        build:
+            context: ./runnerz-server
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:postgresql://runnerz-postgres:5432/runnerz
+            SPRING_DATASOURCE_USERNAME: postgres
+            SPRING_DATASOURCE_PASSWORD: postgres
+        networks:
+            - runnerz-network
+        depends_on:
+            - runnerz-postgres
+
+    runnerz-postgres:
+        image: postgres:13-alpine
+        environment:
+            POSTGRES_DB: runnerz
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - "5435:5432"
+        networks:
+            - runnerz-network
+        volumes:
+            - ./runnerz-server/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+networks:
+    runnerz-network:
+        driver: bridge
