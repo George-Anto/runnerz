@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { environment } from '../environments/environment';
+import { RunService } from './services/run.service';
+import { Run } from './models/run.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +13,28 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements OnInit {
   title = 'runnerz-app';
+  runs: Run[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private runService: RunService, private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.http
-      .get(`${environment.SERVER_URL}/runnerz/api/runs`)
-      .subscribe((data) => {
-        console.log(data);
-      });
+    this.loadRuns();
+  }
+
+  private loadRuns(): void {
+    this.runService.getRuns().subscribe({
+      next: (data: Run[]) => {
+        this.runs = data;
+        console.log(this.runs);
+      },
+      error: (error) => {
+        console.error('Could not load Runs', error);
+        this.toastr.error('Could not load Runs.', 'Error');
+      },
+      complete: () => {
+        console.log('Runs loading completed');
+        this.toastr.success('Runs loading completed.', 'Success');
+      },
+    });
   }
 }

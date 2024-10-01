@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,36 +16,39 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
-
-  ngOnInit() {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  onSubmit() {
+  protected onSubmit() {
     console.log(this.loginForm.value);
+    this.toastr.error('Login not implemented yet.', 'Error');
   }
 
-  onGoogleLogin() {
-    console.log('GoogleLogin!');
+  protected onGoogleLogin() {
+    this.toastr.error('Google Login not implemented yet.', 'Error');
   }
 
-  onFacebookLogin() {
-    console.log('Facebook Login!');
+  protected onFacebookLogin() {
+    this.toastr.error('Facebook Login not implemented yet.', 'Error');
   }
 
-  onForgotPassword() {
-    console.log('Forgot Password!');
+  protected onForgotPassword() {
+    this.toastr.error('Forgot Password not implemented yet.', 'Error');
     // this.router.navigate(['/forgot-password']);
   }
 
-  onRegister() {
-    console.log('Register!');
+  protected onRegister() {
+    this.toastr.error('Sign Up not implemented yet.', 'Error');
     // this.router.navigate(['/register']);
   }
 }
