@@ -10,7 +10,7 @@
     		<relativePath/>
     	</parent>
 
-    <groupId>dev.danvega</groupId>
+    <groupId>gantoniadis</groupId>
     <artifactId>runnerz</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>

@@ -68,7 +68,7 @@
         </filter>
     </appender>
 
-    <logger name="dev.danvega.runnerz" level="DEBUG" additivity="true">
+    <logger name="gantoniadis.runnerz" level="DEBUG" additivity="true">
         <appender-ref ref="DEBUG_FILE" />
         <appender-ref ref="INFO_FILE" />
         <appender-ref ref="WARN_FILE" />
