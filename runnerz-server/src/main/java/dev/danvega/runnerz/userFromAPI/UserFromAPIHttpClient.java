@@ -1,16 +1,16 @@
-package dev.danvega.runnerz.user;
+package dev.danvega.runnerz.userFromAPI;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;
 
-public interface UserHttpClient {
+public interface UserFromAPIHttpClient {
 
     @GetExchange("/users")
-    List<User> findAll();
+    List<UserFromAPI> findAll();
 
     @GetExchange("/users/{id}")
-    User findById(@PathVariable Integer id);
+    UserFromAPI findById(@PathVariable Integer id);
 
 }

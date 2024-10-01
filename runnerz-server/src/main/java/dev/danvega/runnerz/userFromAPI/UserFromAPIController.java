@@ -1,4 +1,4 @@
-package dev.danvega.runnerz.user;
+package dev.danvega.runnerz.userFromAPI;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,21 +9,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-class UserController {
+class UserFromAPIController {
 
-    private final UserHttpClient client;
+    private final UserFromAPIHttpClient client;
 
-    UserController(UserHttpClient client) {
+    UserFromAPIController(UserFromAPIHttpClient client) {
         this.client = client;
     }
 
     @GetMapping("")
-    List<User> findAll() {
+    List<UserFromAPI> findAll() {
         return client.findAll();
     }
 
     @GetMapping("/{id}")
-    User findById(@PathVariable Integer id) {
+    UserFromAPI findById(@PathVariable Integer id) {
         return client.findById(id);
     }
 

@@ -1,6 +1,6 @@
-package dev.danvega.runnerz.user;
+package dev.danvega.runnerz.userFromAPI;
 
-public record User(
+public record UserFromAPI(
         Integer id,
         String name,
         String username,

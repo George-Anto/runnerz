@@ -1,7 +1,7 @@
 package dev.danvega.runnerz;
 
-import dev.danvega.runnerz.user.User;
-import dev.danvega.runnerz.user.UserHttpClient;
+import dev.danvega.runnerz.userFromAPI.UserFromAPI;
+import dev.danvega.runnerz.userFromAPI.UserFromAPIHttpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,20 +37,20 @@ public class RunnerzApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	UserHttpClient userHttpClient() {
+	UserFromAPIHttpClient userHttpClient() {
 		RestClient restClient = RestClient.create("https://jsonplaceholder.typicode.com/");
 		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
-		return factory.createClient(UserHttpClient.class);
+		return factory.createClient(UserFromAPIHttpClient.class);
 	}
 
 	@Bean
-	CommandLineRunner runner(UserHttpClient userClient) {
+	CommandLineRunner runner(UserFromAPIHttpClient userFromAPIHttpClient) {
 		return args -> {
-			List<User> users = userClient.findAll();
-			log.info("Users: {}", users);
+			List<UserFromAPI> usersFromAPI = userFromAPIHttpClient.findAll();
+			log.info("Users from API: {}", usersFromAPI);
 
-			var user1 = userClient.findById(1);
-			log.info("User 1: {}", user1);
+			var user1 = userFromAPIHttpClient.findById(1);
+			log.info("User 1 from API: {}", user1);
 		};
 	}
 }

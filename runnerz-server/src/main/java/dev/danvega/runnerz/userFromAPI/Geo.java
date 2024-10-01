@@ -1,4 +1,4 @@
-package dev.danvega.runnerz.user;
+package dev.danvega.runnerz.userFromAPI;
 
 public record Geo(
         Double lng,

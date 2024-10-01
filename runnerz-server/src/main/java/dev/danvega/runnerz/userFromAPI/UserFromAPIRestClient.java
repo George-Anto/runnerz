@@ -1,4 +1,4 @@
-package dev.danvega.runnerz.user;
+package dev.danvega.runnerz.userFromAPI;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -7,27 +7,27 @@ import org.springframework.web.client.RestClient;
 import java.util.List;
 
 @Component
-public class UserRestClient {
+public class UserFromAPIRestClient {
 
     private final RestClient restClient;
 
-    public UserRestClient(RestClient.Builder builder) {
+    public UserFromAPIRestClient(RestClient.Builder builder) {
         this.restClient = builder
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .build();
     }
 
-     public List<User> findAll() {
+     public List<UserFromAPI> findAll() {
         return restClient.get()
                 .uri("/users")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public User findById(Integer id) {
+    public UserFromAPI findById(Integer id) {
         return restClient.get()
                 .uri("/users/{id}", id)
                 .retrieve()
-                .body(User.class);
+                .body(UserFromAPI.class);
     }
 }
