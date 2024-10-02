@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/runs")
+@RequestMapping("/run")
 public class RunController {
 
     private final RunService runService;

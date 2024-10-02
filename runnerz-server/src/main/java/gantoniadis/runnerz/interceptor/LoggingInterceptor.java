@@ -1,4 +1,4 @@
-package gantoniadis.runnerz.run.interceptor;
+package gantoniadis.runnerz.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
