@@ -5,7 +5,7 @@ import gantoniadis.runnerz.user.dto.AddUserResponseDTO;
 import gantoniadis.runnerz.user.dto.UserDTO;
 import gantoniadis.runnerz.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class UserController {
 
     private final UserService userService;

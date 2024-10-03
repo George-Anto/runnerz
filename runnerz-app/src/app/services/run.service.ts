@@ -8,7 +8,7 @@ import { Run } from '../models/run.model';
   providedIn: 'root',
 })
 export class RunService {
-  private baseUrl = `${environment.SERVER_URL}/runnerz/api/runs`;
+  private baseUrl = `${environment.SERVER_URL}/runnerz/api/run`;
 
   constructor(private http: HttpClient) {}
 

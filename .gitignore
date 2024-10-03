@@ -69,3 +69,5 @@ yarn-error.log*
 /runnerz-server/logs
 runnerz-app/node
 runnerz-app/package-lock.json
+
+jwt-config.properties

@@ -3,7 +3,7 @@ package gantoniadis.runnerz.user.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Builder
 @Data
-@Log4j2
+@Slf4j
 public class UserDTO implements UserDetails {
 
     private Long id;

@@ -11,7 +11,7 @@ import gantoniadis.runnerz.user.model.Role;
 import gantoniadis.runnerz.user.repository.RoleRepository;
 import gantoniadis.runnerz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
