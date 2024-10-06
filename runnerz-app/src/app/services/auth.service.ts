@@ -43,7 +43,7 @@ export class AuthService {
     this.currentUser.next(this.getUserFromJWT());
   }
 
-  public saveUser(jwt: string): void {
+  public saveUser(jwt?: string): void {
     localStorage.setItem(this.JWT, JSON.stringify(jwt));
     this.setCurrentUserFromLocalStorage();
     console.log(this.currentUser.getValue());

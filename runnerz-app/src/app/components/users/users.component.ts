@@ -1,11 +1,141 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { ToastrService } from 'ngx-toastr';
+
+import { User } from '../../models/auth/user.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [MatProgressSpinnerModule],
+  imports: [
+    CommonModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatCardModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
-export class UsersComponent {}
+export class UsersComponent {
+  protected users: User[] = [];
+  protected displayedColumns: string[] = ['username', 'roles'];
+  protected createUserForm: FormGroup;
+  protected usersLoading = false;
+  protected createUserLoading = false;
+
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder
+  ) {
+    this.createUserForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      roles: [[], [Validators.required, Validators.minLength(1)]],
+    });
+  }
+
+  ngOnInit() {
+    this.loadUsers();
+  }
+
+  protected loadUsers(reload = false) {
+    this.usersLoading = true;
+    this.userService.getUsers().subscribe({
+      next: (data: User[]) => {
+        this.users = data;
+        console.log(this.users);
+      },
+      error: (error) => {
+        this.usersLoading = false;
+        this.users = [];
+        console.error('Could not load Users', error);
+        this.toastr.error('Could not load Users.', 'Error');
+      },
+      complete: () => {
+        this.usersLoading = false;
+        console.log('Users loading completed');
+        reload && this.toastr.success('Users loading completed.', 'Success');
+      },
+    });
+  }
+
+  protected onSubmit() {
+    console.log(this.createUserForm.value);
+
+    if (this.createUserForm.invalid) {
+      if (this.createUserForm.get('username')?.errors?.['required']) {
+        this.toastr.error('Please provide a username.', 'Error');
+        return;
+      }
+      const passwordControl = this.createUserForm.get('password');
+      if (passwordControl?.errors?.['required']) {
+        this.toastr.error('Please provide a password.', 'Error');
+        return;
+      }
+      if (passwordControl?.errors?.['minlength']) {
+        this.toastr.error(
+          `Password must be at least ${passwordControl.errors['minlength'].requiredLength} characters long.`,
+          'Error'
+        );
+        return;
+      }
+      if (this.createUserForm.get('roles')?.value.length === 0) {
+        this.toastr.error('Select at least one role for the new User.');
+        return;
+      }
+      return;
+    }
+
+    this.createUserLoading = true;
+
+    this.userService.addUser(this.createUserForm.value).subscribe({
+      next: (user: User) => {
+        this.createUserLoading = false;
+        this.toastr.success(
+          `User ${user.username} created successfully.`,
+          'Success'
+        );
+        this.loadUsers();
+      },
+      error: (error) => {
+        this.createUserLoading = false;
+        console.error('Error creating user', error);
+        this.toastr.error(
+          error?.error?.message || 'Error creating user.',
+          'Error'
+        );
+      },
+    });
+  }
+
+  protected onRoleChange(event: Event, role: string) {
+    const target = event.target as HTMLInputElement;
+    const roles = this.createUserForm.get('roles')?.value || [];
+
+    if (target.checked) {
+      this.createUserForm.patchValue({ roles: [...roles, role] });
+    } else {
+      this.createUserForm.patchValue({
+        roles: roles.filter((r: string) => r !== role),
+      });
+    }
+  }
+}

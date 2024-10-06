@@ -1,11 +1,11 @@
 export interface User {
-    jwt: string,
-    roles: Role[],
-    username: string
+  jwt?: string;
+  roles: Role[];
+  username: string;
 }
 
 interface Role {
-    id: number,
-    name: string,
-    authority: string
+  id?: number;
+  name: string;
+  authority?: string;
 }

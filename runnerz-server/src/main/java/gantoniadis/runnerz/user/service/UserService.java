@@ -67,7 +67,7 @@ public class UserService {
         roleRepository.saveAll(roleMapper.roleDTOsSetToRolesSet(roleDTOList));
     }
 
-    private Set<RoleDTO> addRoles(List<String> requestRoles) {
+    private Set<RoleDTO> addRoles(List<String> requestRoles) throws RequestDataException {
 
         Set<RoleDTO> rolesToAdd = new HashSet<>();
 
@@ -78,6 +78,9 @@ public class UserService {
             if (requestRoles.contains(roleDTO.getName())) {
                 rolesToAdd.add(roleDTO);
             }
+        }
+        if (rolesToAdd.isEmpty()) {
+            throw new RequestDataException("Select at least one valid role for the new User.");
         }
         return rolesToAdd;
     }

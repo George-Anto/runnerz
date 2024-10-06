@@ -1,1 +1,129 @@
-<p>users works!</p>
+<div class="content">
+  <h3>Users Management</h3>
+
+  <div class="card-container">
+    <!-- All Users Card -->
+    <mat-card class="users-card">
+      <mat-card-header>
+        <mat-card-title>All Users</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <table mat-table [dataSource]="users" class="users-table">
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef>Username</th>
+            <td mat-cell *matCellDef="let element">{{ element.username }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="roles">
+            <th mat-header-cell *matHeaderCellDef>Roles</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngFor="let role of element.roles" class="role-badge">
+                {{ role.name }}
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-card-content>
+
+      <div *ngIf="usersLoading" class="loading-spinner">
+        <mat-spinner
+          [diameter]="34"
+          [strokeWidth]="4"
+          [color]="'primary'"
+          [mode]="'indeterminate'"
+        ></mat-spinner>
+      </div>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="loadUsers(true)">
+          Reload Users
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Add User Card -->
+    <mat-card class="create-user-card">
+      <mat-card-header>
+        <mat-card-title>Create New User</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="createUserForm">
+          <div class="form-group">
+            <br />
+            <label for="username" class="input-description">Username</label>
+            <br />
+            <br />
+            <input
+              id="username"
+              formControlName="username"
+              placeholder="Enter a username"
+            />
+          </div>
+
+          <div class="form-group">
+            <br />
+            <label for="password" class="input-description">Password</label>
+            <br />
+            <br />
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Enter a password"
+            />
+          </div>
+
+          <br />
+
+          <div>
+            <label class="input-description">Roles</label>
+            <div class="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="
+                    createUserForm.get('roles')?.value.includes('ADMIN')
+                  "
+                  (change)="onRoleChange($event, 'ADMIN')"
+                />
+                Admin
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="
+                    createUserForm.get('roles')?.value.includes('USER')
+                  "
+                  (change)="onRoleChange($event, 'USER')"
+                />
+                User
+              </label>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+
+      <div *ngIf="createUserLoading" class="loading-spinner">
+        <mat-spinner
+          [diameter]="34"
+          [strokeWidth]="4"
+          [color]="'primary'"
+          [mode]="'indeterminate'"
+        ></mat-spinner>
+      </div>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          Create User
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

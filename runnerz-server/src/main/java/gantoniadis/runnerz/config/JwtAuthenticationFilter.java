@@ -44,10 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         final String authHeader = request.getHeader(AUTHORIZATION_HEADER_KEY);
-        log.info(String.valueOf(request.getHeaderNames().toString()));
-        log.info(authHeader);
         final String jwt;
         String username;
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (authHeader == null ||!authHeader.startsWith(BEARER)) {
             log.warn("Unauthorized request made. Method: {}, URI: {}, Remote Address: {}",
                     request.getMethod(),
