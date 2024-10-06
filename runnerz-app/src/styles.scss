@@ -1,5 +1,41 @@
 @import "ngx-toastr/toastr";
+@import "@angular/material/prebuilt-themes/azure-blue.css";
 
 * {
   margin: 0;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f4f4f4;
+}
+
+// Some colors from the pallete
+// .light-gray {
+//   background-color: #f4f4f4;
+// }
+
+// .darker-gray {
+//   background-color: #D3D3D3;
+// }
+
+// .medium-gray {
+//   background-color: #BEBEBE;
+// }
+
+// .dark-gray {
+//   background-color: #999999;
+// }
+
+// .very-dark-gray {
+//   background-color: #666666;
+// }
+
+// .almost-black {
+//   background-color: #333333;
+// }

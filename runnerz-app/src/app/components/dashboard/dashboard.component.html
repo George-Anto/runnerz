@@ -1,0 +1,51 @@
+<div class="app-container">
+  <header class="app-header">
+    <div class="logo">
+      <a [routerLink]="['/runs']">
+        <img src="/assets/runnerz.png" alt="App Logo" />
+      </a>
+    </div>
+    <div class="demo-project">Runnerz - Demo Full Stack Project</div>
+    <button mat-flat-button color="primary" (click)="logout()">
+      Logout
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Logout icon"
+        fontIcon="logout"
+      ></mat-icon>
+    </button>
+  </header>
+
+  <main class="app-content">
+    <aside class="app-menu">
+      <div class="menu-header">
+        <h3>Menu</h3>
+      </div>
+      <ul class="menu-list">
+        <li>
+          <a routerLink="/runs"><i class="fa fa-dashboard"></i> Runs</a>
+        </li>
+        <li *ngIf="isAdmin">
+          <a routerLink="/users"><i class="fa fa-cog"></i>Users</a>
+        </li>
+        <li>
+          <a routerLink="/demo"><i class="fa fa-question-circle"></i> Help</a>
+        </li>
+      </ul>
+    </aside>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="app-footer">
+    <div class="copyright">
+      &copy; {{ currentYear }} Georgios Antoniadis. All rights reserved.
+    </div>
+    <nav class="footer-nav">
+      <ul>
+        <li><a routerLink="/demo">Terms of Service</a></li>
+        <li><a routerLink="/demo">Privacy Policy</a></li>
+        <li><a routerLink="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </footer>
+</div>

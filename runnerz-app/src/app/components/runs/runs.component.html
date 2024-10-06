@@ -1,0 +1,16 @@
+<div class="content">
+  <h3>Runs</h3>
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner
+      [diameter]="44"
+      [strokeWidth]="4"
+      [mode]="'indeterminate'"
+    ></mat-spinner>
+  </div>
+  <div *ngIf="runs.length === 0">No Runs found.</div>
+  <div *ngIf="runs.length > 0">
+    <div *ngFor="let run of runs">
+      {{ run.id }}: {{ run.title }}, {{ run.miles }} miles, {{ run.location }}.
+    </div>
+  </div>
+</div>

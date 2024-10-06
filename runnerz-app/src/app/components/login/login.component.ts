@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -6,32 +7,89 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { ToastrService } from 'ngx-toastr';
+
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/auth/user.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatProgressSpinnerModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  protected loginForm: FormGroup;
+  protected loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
   ) {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
+
+    const navigation = this.router.getCurrentNavigation();
+
+    if (navigation?.extras?.state) {
+      this.toastr.error(navigation.extras.state['message'], 'Error');
+    }
   }
 
   protected onSubmit() {
     console.log(this.loginForm.value);
-    this.toastr.error('Login not implemented yet.', 'Error');
+
+    if (this.loginForm.invalid) {
+      if (this.loginForm.get('username')?.errors?.['required']) {
+        this.toastr.error('Please provide a username.', 'Error');
+        return;
+      }
+      const passwordControl = this.loginForm.get('password');
+      if (passwordControl?.errors?.['required']) {
+        this.toastr.error('Please provide a password.', 'Error');
+        return;
+      }
+      if (passwordControl?.errors?.['minlength']) {
+        this.toastr.error(
+          `Password must be at least ${passwordControl.errors['minlength'].requiredLength} characters long.`,
+          'Error'
+        );
+        return;
+      }
+      return;
+    }
+
+    const username = this.loginForm.get('username')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    this.loading = true;
+
+    this.authService.authenticate({ username, password }).subscribe({
+      next: (data: User) => {
+        this.authService.saveUser(data.jwt);
+      },
+      error: (err) => {
+        console.error('Authentication failed:', err);
+        this.loading = false;
+        this.toastr.error(
+          'Authentication failed. Credentials: admin / admin',
+          'Error'
+        );
+      },
+      complete: () => {
+        this.loading = false;
+        this.authService.hasAdminRole()
+          ? this.router.navigate(['/users'])
+          : this.router.navigate(['/runs']);
+      },
+    });
   }
 
   protected onGoogleLogin() {
