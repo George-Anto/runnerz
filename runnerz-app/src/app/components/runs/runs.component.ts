@@ -116,7 +116,10 @@ export class RunsComponent implements OnInit {
       },
       error: (error) => {
         this.createRunLoading = false;
-        this.toastr.error('Error creating run.', 'Error');
+        this.toastr.error(
+          `Error creating run. ${error?.error?.message || ''}`,
+          'Error'
+        );
         console.log('Error creating run.', error);
       },
       complete: () => {

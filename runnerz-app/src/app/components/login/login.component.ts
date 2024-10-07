@@ -79,8 +79,13 @@ export class LoginComponent {
         console.error('Authentication failed:', err);
         this.loading = false;
         this.toastr.error(
-          'Authentication failed. Credentials: admin / admin',
-          'Error'
+          `Authentication failed.<br />${
+            err?.error?.message || ''
+          }.<br />Credentials: admin / admin`,
+          'Error',
+          {
+            enableHtml: true,
+          }
         );
       },
       complete: () => {
