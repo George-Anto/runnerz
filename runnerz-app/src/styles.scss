@@ -39,3 +39,50 @@ body {
 // .almost-black {
 //   background-color: #333333;
 // }
+
+.mat-calendar {
+  background-color: #e3f2fd;
+}
+
+.mat-calendar-body-selected {
+  background-color: #1e88e5 !important;
+  color: white !important;
+}
+
+// Style for the date on hover
+.mat-calendar-body-cell:hover {
+  background-color: #bbdefb !important;
+}
+
+// Current date highlighting (today's date)
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: #42a5f5 !important;
+  color: #42a5f5 !important;
+}
+
+// Calendar navigation buttons (like month/year navigation)
+.mat-calendar-previous-button,
+.mat-calendar-next-button {
+  color: #42a5f5 !important;
+}
+
+// Dialog container for the datetime picker
+.ngx-mat-datetime-picker-dialog {
+  background-color: #e3f2fd !important;
+  color: #1a1a1a;
+}
+
+// Overlay for the picker
+.ngx-mat-datetime-picker-overlay-pane {
+  z-index: 1000;
+}
+
+.time-container {
+  background-color: #d0e7f8;
+}
+
+.mat-calendar-body-disabled {
+  color: gray;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.1);
+}

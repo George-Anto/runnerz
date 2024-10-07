@@ -1,16 +1,193 @@
 <div class="content">
-  <h3>Runs</h3>
-  <div *ngIf="loading" class="loading-spinner">
-    <mat-spinner
-      [diameter]="44"
-      [strokeWidth]="4"
-      [mode]="'indeterminate'"
-    ></mat-spinner>
-  </div>
-  <div *ngIf="runs.length === 0">No Runs found.</div>
-  <div *ngIf="runs.length > 0">
-    <div *ngFor="let run of runs">
-      {{ run.id }}: {{ run.title }}, {{ run.miles }} miles, {{ run.location }}.
-    </div>
+  <h3>Runs Management</h3>
+
+  <div class="card-container">
+    <!-- All Runs Card -->
+    <mat-card class="runs-card">
+      <mat-card-header>
+        <mat-card-title>All Runs</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <table mat-table [dataSource]="runs" class="runs-table">
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let run">{{ run.title }}</td>
+          </ng-container>
+
+          <!-- Miles Column -->
+          <ng-container matColumnDef="miles">
+            <th mat-header-cell *matHeaderCellDef>Miles</th>
+            <td mat-cell *matCellDef="let run">{{ run.miles }}</td>
+          </ng-container>
+
+          <!-- Location Column -->
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef>Location</th>
+            <td mat-cell *matCellDef="let run">{{ run.location }}</td>
+          </ng-container>
+
+          <!-- Started On Column -->
+          <ng-container matColumnDef="startedOn">
+            <th mat-header-cell *matHeaderCellDef>Started On</th>
+            <td mat-cell *matCellDef="let run">
+              {{ run.startedOn | date : "short" }}
+            </td>
+          </ng-container>
+
+          <!-- Completed On Column -->
+          <ng-container matColumnDef="completedOn">
+            <th mat-header-cell *matHeaderCellDef>Completed On</th>
+            <td mat-cell *matCellDef="let run">
+              {{ run.completedOn | date : "short" }}
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let run">
+              <button mat-icon-button color="warn" (click)="deleteRun(run.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-card-content>
+
+      <div *ngIf="runsLoading" class="loading-spinner">
+        <mat-spinner
+          [diameter]="34"
+          [strokeWidth]="4"
+          [color]="'primary'"
+          [mode]="'indeterminate'"
+        ></mat-spinner>
+      </div>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="loadRuns(true)">
+          Reload Runs
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Create Run Card -->
+    <mat-card class="create-run-card">
+      <mat-card-header>
+        <mat-card-title>Create New Run</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="createRunForm">
+          <div class="form-group">
+            <br />
+            <label for="title" class="input-description">Title</label>
+            <br />
+            <br />
+            <input
+              id="title"
+              formControlName="title"
+              placeholder="Enter a title"
+            />
+          </div>
+
+          <div class="form-group">
+            <br />
+            <label for="miles" class="input-description">Miles</label>
+            <br />
+            <br />
+            <input
+              id="miles"
+              type="number"
+              formControlName="miles"
+              placeholder="Enter miles"
+            />
+          </div>
+
+          <div class="form-group">
+            <br />
+            <label for="location" class="input-description">Location</label>
+            <br />
+            <br />
+            <mat-form-field appearance="fill">
+              <mat-label>Select Location</mat-label>
+              <mat-select formControlName="location">
+                <mat-option value="INDOOR">Indoor</mat-option>
+                <mat-option value="OUTDOOR">Outdoor</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <label for="startedOn" class="input-description">Started On</label>
+            <br />
+            <br />
+            <mat-form-field appearance="fill">
+              <input
+                matInput
+                [ngxMatDatetimePicker]="startedOnPicker"
+                formControlName="startedOn"
+                placeholder="Select Start Date and Time"
+                [max]="maxDate"
+                readonly
+              />
+              <ngx-mat-datetime-picker
+                #startedOnPicker
+                type="datetime"
+              ></ngx-mat-datetime-picker>
+              <ngx-mat-datepicker-toggle
+                [for]="startedOnPicker"
+                matSuffix
+              ></ngx-mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <label for="completedOn" class="input-description"
+              >Completed On</label
+            >
+            <br />
+            <br />
+            <mat-form-field appearance="fill">
+              <input
+                matInput
+                [ngxMatDatetimePicker]="completedOnPicker"
+                formControlName="completedOn"
+                placeholder="Select Completed Date and Time"
+                [max]="maxDate"
+                readonly
+              />
+              <ngx-mat-datetime-picker
+                #completedOnPicker
+                type="datetime"
+              ></ngx-mat-datetime-picker>
+              <ngx-mat-datepicker-toggle
+                [for]="completedOnPicker"
+                matSuffix
+              ></ngx-mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-card-content>
+
+      <div *ngIf="createRunLoading" class="loading-spinner">
+        <mat-spinner
+          [diameter]="34"
+          [strokeWidth]="4"
+          [color]="'primary'"
+          [mode]="'indeterminate'"
+        ></mat-spinner>
+      </div>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onSubmitRun()">
+          Create Run
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>

@@ -1,3 +1,71 @@
 .content {
   margin: 20px;
 }
+
+.card-container {
+  display: flex;
+}
+
+.runs-card {
+  background-color: #d3d3d3;
+  margin: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.create-run-card {
+  background-color: #d3d3d3;
+  margin: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  height: 750px;
+  overflow: auto;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.runs-table {
+  width: 100%;
+  background-color: #d3d3d3;
+}
+
+.form-group input {
+  width: 80%;
+  padding: 15px 15px 15px 35px;
+  border: 2px solid transparent;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.35);
+  color: black;
+  transition: all 0.3s ease;
+  &::placeholder {
+    color: #999999;
+    opacity: 1;
+  }
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #bebebe;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.input-description {
+  background-color: #1a1a1a;
+  color: #d3d3d3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}

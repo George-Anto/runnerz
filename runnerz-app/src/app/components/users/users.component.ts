@@ -18,6 +18,11 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/auth/user.model';
 import { UserService } from '../../services/user.service';
 
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -29,6 +34,8 @@ import { UserService } from '../../services/user.service';
     MatButtonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
@@ -101,6 +108,7 @@ export class UsersComponent {
         this.toastr.error('Select at least one role for the new User.');
         return;
       }
+      this.toastr.error('Form is invalid.', 'Error');
       return;
     }
 
@@ -122,6 +130,10 @@ export class UsersComponent {
           error?.error?.message || 'Error creating user.',
           'Error'
         );
+      },
+      complete: () => {
+        this.createUserForm.get('username')?.reset();
+        this.createUserForm.get('password')?.reset();
       },
     });
   }
