@@ -46,32 +46,11 @@ export class LoginComponent {
   protected onSubmit() {
     console.log(this.loginForm.value);
 
-    if (this.loginForm.invalid) {
-      if (this.loginForm.get('username')?.errors?.['required']) {
-        this.toastr.error('Please provide a username.', 'Error');
-        return;
-      }
-      const passwordControl = this.loginForm.get('password');
-      if (passwordControl?.errors?.['required']) {
-        this.toastr.error('Please provide a password.', 'Error');
-        return;
-      }
-      if (passwordControl?.errors?.['minlength']) {
-        this.toastr.error(
-          `Password must be at least ${passwordControl.errors['minlength'].requiredLength} characters long.`,
-          'Error'
-        );
-        return;
-      }
-      return;
-    }
-
-    const username = this.loginForm.get('username')?.value;
-    const password = this.loginForm.get('password')?.value;
+    if (!this.validateForm()) return;
 
     this.loading = true;
 
-    this.authService.authenticate({ username, password }).subscribe({
+    this.authService.authenticate(this.loginForm.value).subscribe({
       next: (data: User) => {
         this.authService.saveUser(data.jwt);
       },
@@ -113,5 +92,33 @@ export class LoginComponent {
   protected onRegister() {
     this.toastr.error('Sign Up not implemented yet.', 'Error');
     // this.router.navigate(['/register']);
+  }
+
+  private validateForm(): boolean {
+    if (this.loginForm.invalid) {
+      if (this.loginForm.get('username')?.errors?.['required']) {
+        this.toastr.error('Please provide a username.', 'Error');
+        return false;
+      }
+
+      const passwordControl = this.loginForm.get('password');
+      if (passwordControl?.errors?.['required']) {
+        this.toastr.error('Please provide a password.', 'Error');
+        return false;
+      }
+
+      if (passwordControl?.errors?.['minlength']) {
+        this.toastr.error(
+          `Password must be at least ${passwordControl.errors['minlength'].requiredLength} characters long.`,
+          'Error'
+        );
+        return false;
+      }
+
+      this.toastr.error('Form is invalid.', 'Error');
+      return false;
+    }
+
+    return true;
   }
 }

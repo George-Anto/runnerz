@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { BehaviorSubject, map, Observable } from 'rxjs';
+
 import { environment } from '../../environments/environment';
 import { AuthRequest } from '../models/auth/authRequest.model';
 import { User } from '../models/auth/user.model';
@@ -26,9 +27,9 @@ export class AuthService {
     private jwtHelperService: JwtHelperService
   ) {}
 
-  public authenticate(authRequest: AuthRequest): Observable<any> {
+  public authenticate(authRequest: AuthRequest): Observable<User> {
     return this.http
-      .post(
+      .post<User>(
         `${environment.SERVER_URL}/runnerz/api/auth/authenticate`,
         authRequest
       )
@@ -43,7 +44,7 @@ export class AuthService {
     this.currentUser.next(this.getUserFromJWT());
   }
 
-  public saveUser(jwt?: string): void {
+  public saveUser(jwt?: string) {
     localStorage.setItem(this.JWT, JSON.stringify(jwt));
     this.setCurrentUserFromLocalStorage();
     console.log(this.currentUser.getValue());
@@ -61,7 +62,7 @@ export class AuthService {
     return hasAdminRole;
   }
 
-  public logout(message?: string): void {
+  public logout(message?: string) {
     let navigationExtras;
 
     if (message) {
