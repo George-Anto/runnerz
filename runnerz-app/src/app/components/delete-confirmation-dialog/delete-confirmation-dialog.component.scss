@@ -1,0 +1,22 @@
+mat-dialog-content {
+  background-color: #f4f4f4;
+  text-align: center;
+  p {
+    margin-top: 10px;
+  }
+}
+
+.close-icon {
+  background-color: rgb(236, 200, 200);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+mat-dialog-actions {
+  background-color: #f4f4f4;
+  justify-content: flex-end;
+  button {
+    margin: 0 5px;
+  }
+}

@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>Delete Alert</h2>
+  <button mat-icon-button class="close-icon" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <p>Do you really want to delete this Run? This process cannot be undone.</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

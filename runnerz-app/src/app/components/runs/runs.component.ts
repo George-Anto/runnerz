@@ -4,6 +4,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+
 import {
   FormBuilder,
   FormGroup,
@@ -24,6 +26,7 @@ import {
   NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
+import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-runs',
@@ -41,6 +44,7 @@ import {
     MatSelectModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
+    MatDialogModule,
   ],
   templateUrl: './runs.component.html',
   styleUrl: './runs.component.scss',
@@ -63,7 +67,8 @@ export class RunsComponent implements OnInit {
   constructor(
     private runService: RunService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) {
     this.createRunForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -129,15 +134,23 @@ export class RunsComponent implements OnInit {
   }
 
   protected deleteRun(id: number) {
-    this.runService.deleteRun(id).subscribe({
-      next: () => {
-        this.toastr.success('Run deleted successfully.', 'Success');
-        this.loadRuns();
-      },
-      error: (error) => {
-        this.toastr.error('Error deleting run.', 'Error');
-        console.log('Error deleting run.', error);
-      },
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.runService.deleteRun(id).subscribe({
+          next: () => {
+            this.toastr.success('Run deleted successfully.', 'Success');
+            this.loadRuns();
+          },
+          error: (error) => {
+            this.toastr.error('Error deleting run.', 'Error');
+            console.log('Error deleting run.', error);
+          },
+        });
+      }
     });
   }
 
