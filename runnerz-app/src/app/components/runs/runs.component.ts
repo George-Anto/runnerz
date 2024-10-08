@@ -19,14 +19,15 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { Run } from '../../models/run.model';
-import { RunService } from '../../services/run.service';
-
 import {
   NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
+
+import { Run } from '../../models/run.model';
+import { RunService } from '../../services/run.service';
 import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { EditRunDialogComponent } from '../edit-run-dialog/edit-run-dialog.component';
 
 @Component({
   selector: 'app-runs',
@@ -106,7 +107,8 @@ export class RunsComponent implements OnInit {
   protected onSubmitRun() {
     console.log(this.createRunForm);
 
-    if (!this.validateForm()) return;
+    // if (!this.runService.validateForm(this.toastr, this.createRunForm)) return;
+    if (!this.runService.validateForm(this.createRunForm)) return;
 
     this.createRunLoading = true;
 
@@ -133,6 +135,31 @@ export class RunsComponent implements OnInit {
     });
   }
 
+  protected editRun(run: Run) {
+    const dialogRef = this.dialog.open(EditRunDialogComponent, {
+      width: '400px',
+      data: { run },
+    });
+
+    dialogRef.afterClosed().subscribe((updatedRun: Run) => {
+      if (updatedRun) {
+        this.runService.updateRun(updatedRun).subscribe({
+          next: () => {
+            this.toastr.success('Run updated successfully.', 'Success');
+            this.loadRuns();
+          },
+          error: (error) => {
+            this.toastr.error(
+              `Failed to update run. ${error?.error?.message}`,
+              'Error'
+            );
+            console.log('Error updating run.', error);
+          },
+        });
+      }
+    });
+  }
+
   protected deleteRun(id: number) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
       width: '350px',
@@ -146,70 +173,14 @@ export class RunsComponent implements OnInit {
             this.loadRuns();
           },
           error: (error) => {
-            this.toastr.error('Error deleting run.', 'Error');
+            this.toastr.error(
+              `Error deleting run. ${error?.error?.message}`,
+              'Error'
+            );
             console.log('Error deleting run.', error);
           },
         });
       }
     });
-  }
-
-  private validateForm(): boolean {
-    const startedOnControl = this.createRunForm.get('startedOn');
-    const completedOnControl = this.createRunForm.get('completedOn');
-
-    if (this.createRunForm.invalid) {
-      if (this.createRunForm.get('title')?.errors?.['required']) {
-        this.toastr.error('Please provide a title.', 'Error');
-        return false;
-      }
-
-      const milesControl = this.createRunForm.get('miles');
-      if (milesControl?.errors?.['required']) {
-        this.toastr.error('Please provide the miles.', 'Error');
-        return false;
-      }
-
-      if (milesControl?.errors?.['min']) {
-        this.toastr.error(
-          `Miles must be at least ${milesControl?.errors?.['min'].min}.`,
-          'Error'
-        );
-        return false;
-      }
-
-      if (this.createRunForm.get('location')?.errors?.['required']) {
-        this.toastr.error('Please provide a location.', 'Error');
-        return false;
-      }
-
-      if (startedOnControl?.errors?.['required']) {
-        this.toastr.error('Please provide the start date and time.', 'Error');
-        return false;
-      }
-
-      if (completedOnControl?.errors?.['required']) {
-        this.toastr.error(
-          'Please provide the completion date and time.',
-          'Error'
-        );
-        return false;
-      }
-
-      this.toastr.error('Form is invalid.', 'Error');
-      return false;
-    }
-
-    if (
-      new Date(completedOnControl?.value) <= new Date(startedOnControl?.value)
-    ) {
-      this.toastr.error(
-        'Completion date must be after the start date.',
-        'Error'
-      );
-      return false;
-    }
-
-    return true;
   }
 }

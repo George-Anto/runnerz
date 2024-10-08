@@ -1,0 +1,72 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>Edit Run</h2>
+  <button mat-icon-button class="close-icon" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <form [formGroup]="editRunForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Run Title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Miles</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="miles"
+        placeholder="Run Miles"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Location</mat-label>
+      <mat-select formControlName="location">
+        <mat-option value="INDOOR">Indoor</mat-option>
+        <mat-option value="OUTDOOR">Outdoor</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Started On</mat-label>
+      <input
+        matInput
+        [max]="maxDate"
+        [ngxMatDatetimePicker]="startedOnPicker"
+        formControlName="startedOn"
+        placeholder="Start Date and Time"
+      />
+      <ngx-mat-datetime-picker
+        #startedOnPicker
+        type="datetime"
+      ></ngx-mat-datetime-picker>
+      <ngx-mat-datepicker-toggle
+        [for]="startedOnPicker"
+        matSuffix
+      ></ngx-mat-datepicker-toggle>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Completed On</mat-label>
+      <input
+        matInput
+        [max]="maxDate"
+        [ngxMatDatetimePicker]="completedOnPicker"
+        formControlName="completedOn"
+        placeholder="Completion Date and Time"
+      />
+      <ngx-mat-datetime-picker
+        #completedOnPicker
+        type="datetime"
+      ></ngx-mat-datetime-picker>
+      <ngx-mat-datepicker-toggle
+        [for]="completedOnPicker"
+        matSuffix
+      ></ngx-mat-datepicker-toggle>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+</mat-dialog-actions>

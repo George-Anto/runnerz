@@ -15,7 +15,7 @@ export class DeleteConfirmationDialogComponent {
     private dialogRef: MatDialogRef<DeleteConfirmationDialogComponent>
   ) {}
 
-  onClose(): void {
+  onCancel(): void {
     this.dialogRef.close(false);
   }
 

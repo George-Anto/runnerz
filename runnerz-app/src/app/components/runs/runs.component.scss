@@ -84,3 +84,16 @@ mat-card-actions {
   border-radius: 4px;
   font-size: 14px;
 }
+
+.action-icons {
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-right: 8px;
+  }
+
+  button:last-child {
+    margin-right: 0;
+  }
+}
