@@ -61,7 +61,7 @@ public class JsonDataLoader implements CommandLineRunner {
 
                 //Save users to the database
                 for (AddUserRequestDTO newUser : data.users()) {
-                    userService.createNewUser(newUser);
+                    userService.createNewUser(newUser, false);
                 }
             } catch (IOException e) {
                 throw new RuntimeException("Failed to read Users and / or Roles from JSON data", e);

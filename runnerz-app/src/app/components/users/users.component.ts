@@ -87,34 +87,11 @@ export class UsersComponent {
   protected onSubmit() {
     console.log(this.createUserForm.value);
 
-    if (this.createUserForm.invalid) {
-      if (this.createUserForm.get('username')?.errors?.['required']) {
-        this.toastr.error('Please provide a username.', 'Error');
-        return;
-      }
-      const passwordControl = this.createUserForm.get('password');
-      if (passwordControl?.errors?.['required']) {
-        this.toastr.error('Please provide a password.', 'Error');
-        return;
-      }
-      if (passwordControl?.errors?.['minlength']) {
-        this.toastr.error(
-          `Password must be at least ${passwordControl.errors['minlength'].requiredLength} characters long.`,
-          'Error'
-        );
-        return;
-      }
-      if (this.createUserForm.get('roles')?.value.length === 0) {
-        this.toastr.error('Select at least one role for the new User.');
-        return;
-      }
-      this.toastr.error('Form is invalid.', 'Error');
-      return;
-    }
+    if (!this.userService.validateUserForm(this.createUserForm)) return;
 
     this.createUserLoading = true;
 
-    this.userService.addUser(this.createUserForm.value).subscribe({
+    this.userService.createUser(this.createUserForm.value).subscribe({
       next: (user: User) => {
         this.createUserLoading = false;
         this.toastr.success(

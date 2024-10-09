@@ -104,6 +104,25 @@ export class RunService {
         return false;
       }
 
+      const startedOnDate = new Date(startedOnControl?.value);
+      const completetOnDate = new Date(completedOnControl?.value);
+
+      if (startedOnDate >= new Date()) {
+        this.toastr.error(
+          `Start on time must be before ${new Date().getHours()}:${new Date().getMinutes()}.`,
+          'Error'
+        );
+        return false;
+      }
+
+      if (completetOnDate >= new Date()) {
+        this.toastr.error(
+          `Completed on time must be before ${new Date().getHours()}:${new Date().getMinutes()}.`,
+          'Error'
+        );
+        return false;
+      }
+
       this.toastr.error('Form is invalid.', 'Error');
       return false;
     }

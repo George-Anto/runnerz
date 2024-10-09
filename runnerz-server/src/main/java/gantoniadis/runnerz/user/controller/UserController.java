@@ -33,6 +33,14 @@ public class UserController {
         log.debug("Trying to create user with username: " + request.getUsername());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.createNewUser(request));
+                .body(userService.createNewUser(request, false));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AddUserResponseDTO> registerUser(@RequestBody AddUserRequestDTO request) {
+        log.debug("Trying to register user with username: " + request.getUsername());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.createNewUser(request, true));
     }
 }

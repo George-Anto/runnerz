@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "484758e4-d5e6-456d-bc74-23cf7a774b00",
 		"name": "Runnerz",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27984599"
 	},
 	"item": [
@@ -14,13 +14,29 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/runnerz/api/run"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"run"
+							]
+						}
 					},
 					"response": []
 				},
@@ -29,13 +45,30 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/runnerz/api/run/10"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/run/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"run",
+								"10"
+							]
+						}
 					},
 					"response": []
 				},
@@ -44,9 +77,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -59,7 +96,19 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/runnerz/api/run"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"run"
+							]
+						}
 					},
 					"response": []
 				},
@@ -68,9 +117,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -83,7 +136,20 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/runnerz/api/run/11"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/run/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"run",
+								"11"
+							]
+						}
 					},
 					"response": []
 				},
@@ -92,13 +158,30 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/runnerz/api/run/11"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/run/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"run",
+								"11"
+							]
+						}
 					},
 					"response": []
 				}
@@ -112,22 +195,38 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"test_1\",\r\n    \"password\": \"test_1\",\r\n    // \"username\": \"admin\",\r\n    // \"password\": \"admin\",\r\n    // \"roles\": [\"ADMIN\", \"USER\", \"NOT A VALID ROLE\"]\r\n    \"roles\": [\"\", \"USER\", \"NOT A VALID ROLE\"]\r\n}",
+							"raw": "{\r\n    \"username\": \"test_1\",\r\n    \"password\": \"test_1\",\r\n    // \"username\": \"admin\",\r\n    // \"password\": \"admin\",\r\n    // \"roles\": [\"ADMIN\", \"USER\", \"NOT A VALID ROLE\"]\r\n    // \"roles\": [\"\", \"USER\", \"NOT A VALID ROLE\"],\r\n    \"roles\": [\"fsgd\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/runnerz/api/user"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"user"
+							]
+						}
 					},
 					"response": []
 				},
@@ -136,13 +235,60 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/runnerz/api/user"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test_1\",\r\n    \"password\": \"test_1\",\r\n    // \"username\": \"admin\",\r\n    // \"password\": \"admin\",\r\n    \"roles\": [\"ADMIN\", \"USER\", \"NOT A VALID ROLE\"]\r\n    // \"roles\": [\"\", \"USER\", \"NOT A VALID ROLE\"],\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"user",
+								"register"
+							]
+						}
 					},
 					"response": []
 				}
@@ -171,14 +317,27 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    // \"username\": \"{{admin_username}}\",\r\n    // \"password\": \"{{admin_pass}}\"\r\n    \"username\": \"test_1\",\r\n    \"password\": \"test_1\"\r\n    // \"username\": \"test_11\",\r\n    // \"password\": \"test_11\"\r\n}",
+							"raw": "{\r\n    // \"username\": \"{{admin_username}}\",\r\n    // \"password\": \"{{admin_pass}}\"\r\n    \"username\": \"{{user_username}}\",\r\n    \"password\": \"{{user_pass}}\"\r\n    // \"username\": \"test_1\",\r\n    // \"password\": \"test_1\"\r\n    // \"username\": \"test_11\",\r\n    // \"password\": \"test_11\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/runnerz/api/auth/authenticate"
+						"url": {
+							"raw": "http://localhost:8080/runnerz/api/auth/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"runnerz",
+								"api",
+								"auth",
+								"authenticate"
+							]
+						}
 					},
 					"response": []
 				}

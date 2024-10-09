@@ -37,7 +37,11 @@ public class UserService {
         return allUsersDTO;
     }
 
-    public AddUserResponseDTO createNewUser(AddUserRequestDTO request) {
+    public AddUserResponseDTO createNewUser(AddUserRequestDTO request, boolean regularRegister) {
+
+        if (regularRegister) {
+            request.getRoles().removeIf(role -> role.equalsIgnoreCase("Admin"));
+        }
 
         UserDTO newUserDTO;
         try {

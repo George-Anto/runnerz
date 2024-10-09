@@ -48,6 +48,16 @@ Content-Type: application/json
   "roles": ["", "USER", "NOT A VALID ROLE"]
 }
 
+### Register User
+POST http://localhost:8080/runnerz/api/user/register
+Content-Type: application/json
+
+{
+  "username": "test_2",
+  "password": "test_2",
+  "roles": ["", "USER", "NOT A VALID ROLE"]
+}
+
 
 ### Find All Users
 GET http://localhost:8080/runnerz/api/user

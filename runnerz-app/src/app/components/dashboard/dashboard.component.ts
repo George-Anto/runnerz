@@ -15,10 +15,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  constructor(private authService: AuthService) {}
-
   protected currentYear = new Date().getFullYear();
+  protected username: string | undefined;
   protected isAdmin = false;
+
+  constructor(private authService: AuthService) {
+    this.username = this.authService.getCurrentUser()?.username;
+  }
+
   ngOnInit(): void {
     this.isAdmin = this.authService.hasAdminRole();
   }

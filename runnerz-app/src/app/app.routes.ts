@@ -8,10 +8,12 @@ import { authGuard } from './guards/auth.guard';
 import { loginGuard } from './guards/login.guard';
 import { DemoComponent } from './components/demo/demo.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'index.jsp', redirectTo: 'login' },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent, canActivate: [loginGuard] },
   {
     path: '',

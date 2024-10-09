@@ -1,0 +1,68 @@
+<div class="register-container">
+  <button mat-icon-button class="back-button" routerLink="/login">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <!-- Register Card -->
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Sign up to use the App!</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm">
+        <div class="form-group">
+          <br />
+          <label for="username" class="input-description">Username</label>
+          <br />
+          <input
+            id="username"
+            formControlName="username"
+            placeholder="Enter a username"
+          />
+        </div>
+
+        <div class="form-group">
+          <br />
+          <label for="password" class="input-description">Password</label>
+          <br />
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Enter a password"
+          />
+        </div>
+
+        <div>
+          <br />
+          <label class="checkbox">Roles (Only User role can be added)</label>
+          <div class="checkbox checkbox-position">
+            <label>
+              <input
+                type="checkbox"
+                [checked]="registerForm.get('roles')?.value.includes('USER')"
+                (change)="onRoleChange($event, 'USER')"
+              />
+              User
+            </label>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-spinner
+        [diameter]="44"
+        [strokeWidth]="4"
+        [mode]="'indeterminate'"
+      ></mat-spinner>
+    </div>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Register
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -23,6 +23,7 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private static final String[] WHITE_LIST_URLS = {"/auth/**"};
+    private static final String REGISTER_ENDPOINT = "/user/register";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,6 +31,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URLS)
+                                .permitAll()
+                                .requestMatchers(HttpMethod.POST, REGISTER_ENDPOINT)
                                 .permitAll()
                                 .requestMatchers(HttpMethod.OPTIONS)
                                 .permitAll()
