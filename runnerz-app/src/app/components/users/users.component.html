@@ -37,6 +37,10 @@
         </table>
       </mat-card-content>
 
+      <div *ngIf="users.length === 0" class="no-users">
+        Could not load Users.
+      </div>
+
       <div *ngIf="usersLoading" class="loading-spinner">
         <mat-spinner
           [diameter]="34"

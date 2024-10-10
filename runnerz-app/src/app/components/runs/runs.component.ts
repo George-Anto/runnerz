@@ -105,13 +105,23 @@ export class RunsComponent implements OnInit {
   }
 
   protected onSubmitRun() {
-    console.log(this.createRunForm);
+    console.log(this.createRunForm.value);
 
     if (!this.runService.validateForm(this.createRunForm)) return;
 
     this.createRunLoading = true;
 
-    this.runService.createRun(this.createRunForm.value).subscribe({
+    const newRun = {
+      ...this.createRunForm.value,
+      startedOn: this.adjustToLocalTimezone(
+        new Date(this.createRunForm.value.startedOn)
+      ).toISOString(),
+      completedOn: this.adjustToLocalTimezone(
+        new Date(this.createRunForm.value.completedOn)
+      ).toISOString(),
+    };
+
+    this.runService.createRun(newRun).subscribe({
       next: (run: Run) => {
         this.createRunLoading = false;
         this.toastr.success(
@@ -181,5 +191,12 @@ export class RunsComponent implements OnInit {
         });
       }
     });
+  }
+
+  private adjustToLocalTimezone(date: Date): Date {
+    const timezoneOffset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - timezoneOffset * 60000);
+
+    return localDate;
   }
 }

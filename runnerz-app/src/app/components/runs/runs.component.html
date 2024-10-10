@@ -79,7 +79,7 @@
         </table>
       </mat-card-content>
 
-      <div *ngIf="runs.length === 0" class="no-runs">
+      <div *ngIf="runs.length === 0!; runsLoading" class="no-runs">
         No Runs available for this User.
       </div>
 
