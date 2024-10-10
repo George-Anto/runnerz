@@ -3,6 +3,7 @@ package gantoniadis.runnerz.auth.service;
 import gantoniadis.runnerz.auth.dto.AuthenticationRequestDTO;
 import gantoniadis.runnerz.auth.dto.AuthenticationResponseDTO;
 import gantoniadis.runnerz.auth.exception.CustomAuthenticationException;
+import gantoniadis.runnerz.user.dto.UserDTO;
 import gantoniadis.runnerz.user.mapper.UserMapper;
 import gantoniadis.runnerz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -45,5 +47,17 @@ public class AuthService {
                 .username(userDTO.getUsername())
                 .roles(userDTO.getRoles())
                 .build();
+    }
+
+    public UserDTO getAuthenticatedUser() {
+        try {
+            String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+            String username = jwtService.extractUsername(token);
+            return userMapper.userToUserDTO(userRepository.findByUsername(username).
+                    orElseThrow(() ->
+                            new CustomAuthenticationException("No authorized User found for this action.")));
+        } catch (Exception e) {
+            throw new CustomAuthenticationException("No authorized User found for this action.");
+        }
     }
 }

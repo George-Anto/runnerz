@@ -10,7 +10,7 @@
 			"name": "Run",
 			"item": [
 				{
-					"name": "Find All Runs",
+					"name": "Find All Runs for Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -41,7 +41,7 @@
 					"response": []
 				},
 				{
-					"name": "Find Run By Id",
+					"name": "Find Run By Id for Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -73,7 +73,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Run",
+					"name": "Create Run for Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -113,7 +113,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Run",
+					"name": "Update Run of Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -154,7 +154,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Run",
+					"name": "Delete Run of Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",

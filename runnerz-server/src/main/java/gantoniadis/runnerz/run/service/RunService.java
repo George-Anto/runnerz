@@ -1,10 +1,13 @@
 package gantoniadis.runnerz.run.service;
 
+import gantoniadis.runnerz.auth.service.AuthService;
 import gantoniadis.runnerz.run.dto.RunDTO;
 import gantoniadis.runnerz.run.exception.RunNotFoundException;
 import gantoniadis.runnerz.run.mapper.RunMapper;
 import gantoniadis.runnerz.run.model.Run;
 import gantoniadis.runnerz.run.repository.RunRepository;
+import gantoniadis.runnerz.user.dto.UserDTO;
+import gantoniadis.runnerz.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +18,31 @@ import java.util.Optional;
 @Service
 public class RunService {
 
+    private final AuthService authService;
+    private final UserMapper userMapper;
     private final RunRepository runRepository;
     private final RunMapper runMapper;
 
-    public RunService(RunRepository runRepository, RunMapper runMapper) {
+    public RunService(AuthService authService, UserMapper userMapper,
+                      RunRepository runRepository, RunMapper runMapper) {
+        this.authService = authService;
+        this.userMapper = userMapper;
         this.runRepository = runRepository;
         this.runMapper = runMapper;
     }
 
     public List<RunDTO> findAll() {
-        log.info("Trying to retrieve all Runs.");
-        return runMapper.runListToRunDTOList(runRepository.findAll());
+        UserDTO loggedInUser = authService.getAuthenticatedUser();
+        log.info("Trying to retrieve all Runs for User: {}.", loggedInUser.getUsername());
+
+        return runMapper.runListToRunDTOList(runRepository.findAllByUser(userMapper.userDTOToUser(loggedInUser)));
     }
 
     public RunDTO findById(Integer id) throws RunNotFoundException {
-        log.info("Trying to retrieve Run with Id: {}.", id);
-        Optional<Run> runOptional = runRepository.findById(id);
+        UserDTO loggedInUser = authService.getAuthenticatedUser();
+        log.info("Trying to retrieve Run with Id: {} for User: {}.", id, loggedInUser.getUsername());
+
+        Optional<Run> runOptional = runRepository.findByIdAndUser(id, userMapper.userDTOToUser(loggedInUser));
         if (runOptional.isEmpty()) {
             throw new RunNotFoundException();
         }
@@ -38,14 +50,19 @@ public class RunService {
     }
 
     public RunDTO create(RunDTO runDTO) {
-        log.info("Trying to create a new Run: {}.", runDTO);
+        UserDTO loggedInUser = authService.getAuthenticatedUser();
+        log.info("Trying to create a new Run: {} for User: {}.", runDTO, loggedInUser.getUsername());
+
+        runDTO.setUser(loggedInUser);
         return runMapper
                 .runToRunDTO(runRepository
                         .save(runMapper.runDTOToRun(runDTO)));
     }
 
     public RunDTO update(RunDTO updatedRunDTO, Integer id) throws RunNotFoundException {
-        log.info("Trying to update Run with Id: {}.", id);
+        UserDTO loggedInUser = authService.getAuthenticatedUser();
+        log.info("Trying to update Run with Id: {} of User: {}.", id, loggedInUser.getUsername());
+
         // Fetch the existing RunDTO from the database
         RunDTO existingRunDTO = findById(id);
         // Manually update only the non-null fields in the updatedRunDTO
@@ -68,8 +85,10 @@ public class RunService {
     }
 
     public void delete(Integer id) throws RunNotFoundException {
-        log.info("Trying to delete Run with Id: {}.", id);
-        Optional<Run> optionalRun = runRepository.findById(id);
+        UserDTO loggedInUser = authService.getAuthenticatedUser();
+        log.info("Trying to delete Run with Id: {} of User: {}.", id, loggedInUser.getUsername());
+
+        Optional<Run> optionalRun = runRepository.findByIdAndUser(id, userMapper.userDTOToUser(loggedInUser));
         if (optionalRun.isEmpty()) {
             throw new RunNotFoundException();
         }

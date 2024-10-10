@@ -1,5 +1,6 @@
 package gantoniadis.runnerz.run.model;
 
+import gantoniadis.runnerz.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +23,7 @@ public class Run {
     private Integer miles;
     @Enumerated(EnumType.STRING)
     private Location location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

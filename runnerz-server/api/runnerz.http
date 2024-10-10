@@ -1,14 +1,14 @@
-### Find All Runs
+### Find All Runs for Current User
 GET http://localhost:8080/runnerz/api/run
 Authorization: Bearer {{jwt}}
 
 
-### Find Run By ID
+### Find Run By ID for Current User
 GET http://localhost:8080/runnerz/api/run/10
 Authorization: Bearer {{jwt}}
 
 
-### Create New Run
+### Create New Run for Current User
 POST http://localhost:8080/runnerz/api/run
 Authorization: Bearer {{jwt}}
 Content-Type: application/json
@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 
-### Update an Existing Run
+### Update an Existing Run of Current User
 PUT http://localhost:8080/runnerz/api/run/11
 Authorization: Bearer {{jwt}}
 Content-Type: application/json
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 
-### Delete a Run
+### Delete a Run of Current User
 DELETE http://localhost:8080/runnerz/api/run/11
 Authorization: Bearer {{jwt}}
 

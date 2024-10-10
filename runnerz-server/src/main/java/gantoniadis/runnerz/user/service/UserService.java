@@ -8,6 +8,7 @@ import gantoniadis.runnerz.user.dto.UserDTO;
 import gantoniadis.runnerz.user.mapper.RoleMapper;
 import gantoniadis.runnerz.user.mapper.UserMapper;
 import gantoniadis.runnerz.user.model.Role;
+import gantoniadis.runnerz.user.model.User;
 import gantoniadis.runnerz.user.repository.RoleRepository;
 import gantoniadis.runnerz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,6 +37,10 @@ public class UserService {
         log.info("Retrieving all Users: {}", allUsersDTO.stream().map(UserDTO::getUsername).toList());
 
         return allUsersDTO;
+    }
+
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public AddUserResponseDTO createNewUser(AddUserRequestDTO request, boolean regularRegister) {

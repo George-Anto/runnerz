@@ -107,7 +107,6 @@ export class RunsComponent implements OnInit {
   protected onSubmitRun() {
     console.log(this.createRunForm);
 
-    // if (!this.runService.validateForm(this.toastr, this.createRunForm)) return;
     if (!this.runService.validateForm(this.createRunForm)) return;
 
     this.createRunLoading = true;

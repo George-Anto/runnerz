@@ -1,9 +1,11 @@
 package gantoniadis.runnerz.run.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gantoniadis.runnerz.run.model.Location;
 import gantoniadis.runnerz.run.validationGroup.CreateRun;
 import gantoniadis.runnerz.run.validationGroup.UpdateRun;
 
+import gantoniadis.runnerz.user.dto.UserDTO;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
@@ -35,4 +37,6 @@ public class RunDTO {
     @Enumerated(EnumType.STRING)
     @NotNull(groups = CreateRun.class)
     private Location location;
+    @JsonIgnore
+    private UserDTO user;
 }
