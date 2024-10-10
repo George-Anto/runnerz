@@ -33,7 +33,7 @@ public class RunDTO {
     private LocalDateTime completedOn;
     @Positive(groups = {CreateRun.class, UpdateRun.class})
     @NotNull(groups = CreateRun.class)
-    private Integer miles;
+    private Double miles;
     @Enumerated(EnumType.STRING)
     @NotNull(groups = CreateRun.class)
     private Location location;

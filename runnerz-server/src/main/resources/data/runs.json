@@ -129,6 +129,26 @@
       "user": {
         "username": "user"
       }
+    },
+    {
+      "title": "Small Run",
+      "startedOn": "2024-08-17T04:44:00.000000",
+      "completedOn": "2024-08-17T04:59:00.000000",
+      "miles": 1.3,
+      "location": "INDOOR",
+      "user": {
+        "username": "user"
+      }
+    },
+    {
+      "title": "Marathon",
+      "startedOn": "2024-08-01T01:34:00.000000",
+      "completedOn": "2024-08-01T05:43:00.000000",
+      "miles": 26.219,
+      "location": "OUTDOOR",
+      "user": {
+        "username": "user"
+      }
     }
   ]
 }

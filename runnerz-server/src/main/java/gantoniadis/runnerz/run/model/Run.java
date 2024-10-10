@@ -20,7 +20,7 @@ public class Run {
     private String title;
     private LocalDateTime startedOn;
     private LocalDateTime completedOn;
-    private Integer miles;
+    private Double miles;
     @Enumerated(EnumType.STRING)
     private Location location;
     @ManyToOne(fetch = FetchType.LAZY)

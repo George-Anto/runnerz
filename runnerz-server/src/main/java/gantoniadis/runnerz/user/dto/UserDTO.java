@@ -15,7 +15,7 @@ import java.util.Set;
 @Slf4j
 public class UserDTO implements UserDetails {
 
-    private Long id;
+    private Integer id;
     private String username;
     @JsonIgnore
     private String password;

@@ -79,6 +79,10 @@
         </table>
       </mat-card-content>
 
+      <div *ngIf="runs.length === 0" class="no-runs">
+        No Runs available for this User.
+      </div>
+
       <div *ngIf="runsLoading" class="loading-spinner">
         <mat-spinner
           [diameter]="34"
@@ -103,33 +107,24 @@
 
       <mat-card-content>
         <form [formGroup]="createRunForm">
-          <div class="form-group">
-            <br />
-            <label for="title" class="input-description">Title</label>
-            <br />
-            <br />
-            <input
-              id="title"
-              formControlName="title"
-              placeholder="Enter Title"
-            />
-          </div>
+          <br />
+          <label for="title" class="input-description">Title</label>
+          <br />
+          <br />
+          <mat-form-field appearance="fill">
+            <mat-label>Enter Title</mat-label>
+            <input matInput id="title" formControlName="title" />
+          </mat-form-field>
+          <br />
+          <label for="miles" class="input-description">Miles</label>
+          <br />
+          <br />
+          <mat-form-field appearance="fill">
+            <mat-label>Enter Miles</mat-label>
+            <input matInput id="miles" type="number" formControlName="miles" />
+          </mat-form-field>
 
           <div class="form-group">
-            <br />
-            <label for="miles" class="input-description">Miles</label>
-            <br />
-            <br />
-            <input
-              id="miles"
-              type="number"
-              formControlName="miles"
-              placeholder="Enter Miles"
-            />
-          </div>
-
-          <div class="form-group">
-            <br />
             <label for="location" class="input-description">Location</label>
             <br />
             <br />

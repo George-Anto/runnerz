@@ -46,11 +46,16 @@ public class RunnerzApplication extends SpringBootServletInitializer {
 	@Bean
 	CommandLineRunner runner(UserFromAPIHttpClient userFromAPIHttpClient) {
 		return args -> {
-			List<UserFromAPI> usersFromAPI = userFromAPIHttpClient.findAll();
-			log.info("Users from API: {}", usersFromAPI);
+			try {
+				List<UserFromAPI> usersFromAPI = userFromAPIHttpClient.findAll();
+				log.info("Users from API: {}", usersFromAPI);
 
-			var user1 = userFromAPIHttpClient.findById(1);
-			log.info("User 1 from API: {}", user1);
+				var user1 = userFromAPIHttpClient.findById(1);
+				log.info("User 1 from API: {}", user1);
+			} catch (Exception e) {
+				log.error("Failed to fetch data from external API: {}", e.getLocalizedMessage());
+				log.warn("Continuing application startup without external API data.");
+			}
 		};
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 public class RoleDTO implements GrantedAuthority {
 
-    private Long id;
+    private Integer id;
     private String name;
 
     @Override

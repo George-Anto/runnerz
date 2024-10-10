@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS run (
     title varchar(250) NOT NULL,
     started_on timestamp NOT NULL,
     completed_on timestamp NOT NULL,
-    miles INT NOT NULL,
+    miles DOUBLE PRECISION NOT NULL,
     location varchar(10) NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
