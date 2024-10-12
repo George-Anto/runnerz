@@ -65,8 +65,8 @@ export class LoginComponent {
         this.loading = false;
         this.toastr.error(
           `Authentication failed.<br />${
-            err?.error?.message || ''
-          }.<br />Credentials: admin / admin`,
+            err?.error?.message || 'You can try:'
+          }<br />Credentials: admin / admin`,
           'Error',
           {
             enableHtml: true,
