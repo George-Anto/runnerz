@@ -20,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the Angular build output from the previous stage
-COPY --from=build /dist/runnerz-app/browser /usr/share/nginx/html
+COPY --from=build /runnerz-app/dist/runnerz-app/browser /usr/share/nginx/html
 
 # Replace environment variable placeholders in env.js
 COPY ./src/assets/env.js /usr/share/nginx/html/assets/env.js
