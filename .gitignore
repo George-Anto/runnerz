@@ -72,3 +72,5 @@ runnerz-app/node
 runnerz-app/package-lock.json
 
 jwt-config.properties
+
+!runnerz-server-1.0-SNAPSHOT.war
