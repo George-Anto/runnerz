@@ -48,7 +48,7 @@ build/
 
 # Compiled files
 *.js
-!src/assets/env.js
+!env.js
 *.js.map
 
 # Logs
