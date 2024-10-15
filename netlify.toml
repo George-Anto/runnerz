@@ -1,0 +1,7 @@
+[build]
+  base = "runnerz-app"
+  publish = "dist/runnerz-app/browser"
+  command = "npm install --legacy-peer-deps && npm run build --prod"
+
+[[plugins]]
+  package = "@netlify/plugin-angular"
