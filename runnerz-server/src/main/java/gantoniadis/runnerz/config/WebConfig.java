@@ -27,7 +27,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:4200",
                         "http://localhost",
                         "https://localhost",
-                        "https://runnerz-app.onrender.com/"
+                        "https://runnerz-app.onrender.com/",
+                        "https://runnerz-app.netlify.app/"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Authorization", "Content-Type");
