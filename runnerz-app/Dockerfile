@@ -19,6 +19,9 @@ RUN npm run build --prod
 # Use the NGINX base image for serving the built Angular app
 FROM nginx:alpine
 
+# Copy the custom nginx configuration file to the container
+COPY default.conf /etc/nginx/conf.d/default.conf
+
 # Copy the Angular build output from the previous stage
 COPY --from=build /runnerz-app/dist/runnerz-app/browser /usr/share/nginx/html
 
