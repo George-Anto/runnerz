@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -27,9 +27,11 @@ import { User } from '../../models/auth/user.model';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   protected loginForm: FormGroup;
   protected loading = false;
+
+  private serverAlertTimer: any = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,18 +51,25 @@ export class LoginComponent {
     }
   }
 
+  ngOnDestroy(): void {
+    clearTimeout(this.serverAlertTimer);
+  }
+
   protected onSubmit() {
     console.log(this.loginForm.value);
 
     if (!this.validateForm()) return;
 
     this.loading = true;
+    this.showSleepingServerAlert();
 
     this.authService.authenticate(this.loginForm.value).subscribe({
       next: (data: User) => {
+        clearTimeout(this.serverAlertTimer);
         this.authService.saveUser(data.jwt);
       },
       error: (err) => {
+        clearTimeout(this.serverAlertTimer);
         console.error('Authentication failed:', err);
         this.loading = false;
         this.toastr.error(
@@ -126,5 +135,19 @@ export class LoginComponent {
     }
 
     return true;
+  }
+
+  private showSleepingServerAlert() {
+    //Only check for slow response if the alert hasn't been shown
+    if (!sessionStorage.getItem('serverAlertShown')) {
+      this.serverAlertTimer = setTimeout(() => {
+        //Show alert after 10 seconds of waiting
+        alert(
+          `Our server is currently sleeping after inactivity. The first actions may take a while to respond. Thank you for your patience!`
+        );
+        //Set the flag in sessionStorage to avoid showing it again in this session
+        sessionStorage.setItem('serverAlertShown', 'true');
+      }, 10000); //10 seconds
+    }
   }
 }

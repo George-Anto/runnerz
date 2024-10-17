@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+
 import { ToastrService } from 'ngx-toastr';
+
 import { User } from '../../models/auth/user.model';
 import { UserService } from '../../services/user.service';
-import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { Router, RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -33,9 +35,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   protected registerForm: FormGroup;
   protected loading = false;
+
+  private serverAlertTimer: any = null;
 
   constructor(
     private userService: UserService,
@@ -51,6 +55,10 @@ export class RegisterComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    clearTimeout(this.serverAlertTimer);
+  }
+
   protected onSubmit() {
     console.log(this.registerForm.value);
 
@@ -58,12 +66,15 @@ export class RegisterComponent {
 
     this.loading = true;
     const password = this.registerForm.value?.password;
+    this.showSleepingServerAlert();
 
     this.userService.register(this.registerForm.value).subscribe({
       next: (user: User) => {
+        clearTimeout(this.serverAlertTimer);
         this.authenticateRegisteredUser(user.username, password);
       },
       error: (error) => {
+        clearTimeout(this.serverAlertTimer);
         this.loading = false;
         console.error('Error creating user', error);
         this.toastr.error(
@@ -108,5 +119,19 @@ export class RegisterComponent {
         this.toastr.success('User created successfully!', 'Success');
       },
     });
+  }
+
+  private showSleepingServerAlert() {
+    //Only check for slow response if the alert hasn't been shown
+    if (!sessionStorage.getItem('serverAlertShown')) {
+      this.serverAlertTimer = setTimeout(() => {
+        //Show alert after 10 seconds of waiting
+        alert(
+          `Our server is currently sleeping after inactivity. The first actions may take a while to respond. Thank you for your patience!`
+        );
+        //Set the flag in sessionStorage to avoid showing it again in this session
+        sessionStorage.setItem('serverAlertShown', 'true');
+      }, 10000); //10 seconds
+    }
   }
 }
